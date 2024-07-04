@@ -1,5 +1,5 @@
 import React from 'react';
-import BookList from '../components/BookList';
+import BookList from '../components/admin/BookList';
 import Layout from '../components/users/Layout';
 
 const HomePage: React.FC = () => {

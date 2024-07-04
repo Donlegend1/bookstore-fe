@@ -5,9 +5,13 @@ import BookPage from './pages/BookPage';
 import AuthorPage from './pages/AuthorPage';
 import SearchPage from './pages/SearchPage';
 import ProfilePage from './pages/ProfilePage';
-import LoginPage from './pages/LoginPage';
-import RegisterPage from './pages/RegisterPage';
+import LoginPage from './pages/Auth/LoginPage';
+import RegisterPage from './pages/Auth/RegisterPage';
 import DashboardHomePage from './pages/Dashboard/HomePage';
+import BookListPage from './pages/Dashboard/Books/BooksPage';
+import NewBookPage from './pages/Dashboard/Books/NewBookPage';
+
+
 
 
 const App: React.FC = () => {
@@ -21,7 +25,15 @@ const App: React.FC = () => {
         <Route path="/profile" element={<ProfilePage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/register" element={<RegisterPage />} />
+
+
+        
         <Route path="/dashboard" element={<DashboardHomePage />} />
+        <Route path="/books" element={<BookListPage />} />
+        <Route path="/new-book" element={<NewBookPage />} />
+
+        
+
 
         
       </Routes>
