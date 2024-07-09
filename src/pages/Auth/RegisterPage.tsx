@@ -1,10 +1,13 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import Layout from '../../components/users/Layout';
+import endpoint from "../../auth/endpoint";
+import { Context } from "../../auth/Context";
+
 interface UserObject{
     fullname: string,
     email: string,
     password: string,
-    confirmPassword: string,
+    password_confirmation: string,
 
 }
 const Register: React.FC = () => {
@@ -12,14 +15,27 @@ const Register: React.FC = () => {
         fullname: "",
         email: "",
         password: "",
-        confirmPassword: "",
+        password_confirmation: "",
     });
+  const { dispatch } = useContext(Context);
+    const [loading, setLoading] = useState(false);
 
-    const handleRegisterUser = () => {
-        console.log('====================================');
-        console.log(userData);
-        console.log('====================================');
+  const handleRegisterUser = async () => {
+    try {
+         setLoading(true);
+         const res = await endpoint.post(`/api/register-api`, userData);
+         if (res.data) {
+             dispatch({ type: "LOGIN_START" });
+    
+        setLoading(false);
+        dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
+        window.location.replace('/dashboard');
+      }
+    
+    } catch (err) {
+      console.log(err);
     }
+ }
 
 
 
@@ -55,7 +71,7 @@ const Register: React.FC = () => {
             </div>
             <div className="form-gp">
               <label htmlFor="exampleInputPassword2">Confirm Password</label>
-              <input type="password" id="exampleInputPassword2" onChange={(e)=>setUserData({...userData, confirmPassword: e.target.value })}/>
+              <input type="password" id="exampleInputPassword2" onChange={(e)=>setUserData({...userData, password_confirmation: e.target.value })}/>
               <i className="ti-lock" />
             </div>
             <div className="submit-btn-area">

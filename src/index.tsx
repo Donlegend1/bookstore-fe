@@ -1,12 +1,11 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
-import { Provider } from 'react-redux';
-import store from './redux/store'; // Adjust the import path as necessary
+import { ContextProvider } from './auth/Context';
 import App from './App';
 
 ReactDOM.render(
-  <Provider store={store}>
+  <ContextProvider>
     <App />
-  </Provider>,
+  </ContextProvider>,
   document.getElementById('root')
 );

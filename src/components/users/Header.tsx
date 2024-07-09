@@ -6,7 +6,7 @@ const Header : React.FC = ()=> {
     <div className="header-area">
             <div className="row align-items-center">
                 <div className="mobile-logo d_none_lg">
-                    <a href="index.html"><img src="images/mobile-logo.png" alt="logo" /></a>
+                    <a href="index.html"><img src="/images/mobile-logo.png" alt="logo" /></a>
                 </div>
 
               
