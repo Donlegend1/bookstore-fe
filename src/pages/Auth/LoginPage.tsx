@@ -2,6 +2,7 @@ import React, { useState, useEffect, useContext } from 'react';
 import Layout from '../../components/users/Layout';
 import endpoint from "../../auth/endpoint";
 import { Context } from "../../auth/Context";
+import { ErrorAlert, SuccessAlert } from "../../Toast/Toast";
 
 interface UserAuthObject {
   login: string;
@@ -17,19 +18,18 @@ const Login: React.FC = () => {
     dispatch({ type: "LOGIN_START" });
     setLoading(true);
     try {
-      const res = await endpoint.post("/api/login-api", userData);
-      console.log('====================================');
-      console.log(res.data);
-      console.log('====================================');
+      const res = await endpoint.post("/login-api", userData);
       if (res.data) {
         setLoading(false);
+           SuccessAlert(res.data.message)
         dispatch({ type: "LOGIN_SUCCESS", payload: res.data });
         window.location.replace('/dashboard');
       }
     } catch (error: any) {
       dispatch({ type: "LOGIN_FAILURE" });
       setLoading(false);
-      console.log(error.response?.data);
+      ErrorAlert(error.response.data.errors.login[0])
+      console.log(error.response);
     }
   };
 

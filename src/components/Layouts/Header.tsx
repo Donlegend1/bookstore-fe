@@ -1,41 +1,57 @@
-import React from 'react';
+import React, {useContext} from 'react';
+import { Context } from '../../auth/Context';
+// import {User} from "../../types"
 
 const Header = () => {
+   const { user } = useContext(Context)
+     const TodayDate = new Date();
+
+function formatDate(a:any) {
+    const year = a.getFullYear();
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const month = monthNames[a.getMonth()];
+    const day = a.getDate();
+
+    // Function to get the appropriate suffix for the day
+    function getDaySuffix(day:any) {
+        if (day > 3 && day < 21) return 'th'; // Handles 11th to 20th
+        switch (day % 10) {
+            case 1: return 'st';
+            case 2: return 'nd';
+            case 3: return 'rd';
+            default: return 'th';
+        }
+    }
+
+    const daySuffix = getDaySuffix(day);
+
+    return `${day}${daySuffix} ${month} ${year}`;
+}
     return (
-        <header>
-  {/* header inner */}
-  <div className="header">
-    <div className="container">
-      <div className="row">
-        <div className="col-xl-3 col-lg-3 col-md-3 col-sm-3 col logo_section">
-          <div className="full">
-            <div className="center-desk">
-              <div className="logo"> <a href="index.html"><img src="images/logo.png" alt="#" /></a> </div>
-            </div>
-          </div>
-        </div>
-        <div className="col-xl-9 col-lg-9 col-md-9 col-sm-9">
-          <div className="menu-area">
-            <div className="limit-box">
-              <nav className="main-menu">
-                <ul className="menu-area-main">
-                  <li className="active"> <a href="index.html">Home</a> </li>
-                  <li> <a href="about.html">About us</a> </li>
-                  <li><a href="books.html">Our Books</a></li>
-                  <li><a href="library.html">library</a></li>
-                  <li><a href="contact.html">Contact us</a></li>
-                  <li className="mean-last"> <a href="#"><img src="images/search_icon.png" alt="#" /></a> </li>
-                  <li className="mean-last"> <a href="#"><img src="images/top-icon.png" alt="#" /></a> </li>
-                </ul>
-              </nav>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-  {/* end header inner */}
-</header>
+        <div className="col-md-12 rt_subheader">
+                <div className="rt_subheader_main">
+                    <h3 className="rt_subheader_title mb-mob-2">Hello {user?.fullname}</h3>
+                    <div className="rt_breadcrumb mb-mob-2">
+                    <a href="#" className="rt_breadcrumb_home_icon"><i className="fa fa-home" /></a>
+                    <span className="rt_breadcrumb_separator"><i className="fa fa-chevron-right" /></span>
+                    <a href="" className="breadcrumb_link"> Home </a>
+                    <span className="rt_breadcrumb_separator"><i className="fa fa-chevron-right" aria-hidden="true" /></span>
+                    <a href="" className="breadcrumb_link"> Main Dashboard </a>
+                    </div>
+                </div>
+                <div className="subheader_btns">
+                    <a href="#" className="btn btn-sm btn-primary btn-inverse-primary"><i className="feather ft-edit mr-0" /></a>
+                    <a href="#" className="btn btn-sm btn-primary btn-inverse-primary"><i className="feather ft-watch mr-0" /></a>
+                    <a href="#" className="btn btn-sm btn-primary btn-inverse-primary">
+                    <span>Today:</span>&nbsp;
+                                <span>{ formatDate(TodayDate)}</span>
+                    <i className="fa fa-calendar ml-2" />
+                    </a>
+                </div>
+                </div>
     );
 }
 

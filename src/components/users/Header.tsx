@@ -1,7 +1,27 @@
-import React from 'react';
+import React, { useState, useContext } from 'react';
+import endpoint from '../../auth/endpoint';
+import { Context } from "../../auth/Context";
 
-
-const Header : React.FC = ()=> {
+const Header: React.FC = () => {
+    
+    const [loading, setLoading] = useState(false)
+    const { dispatch } = useContext(Context);
+    
+    const logOut = async () => {
+         try {
+      const res = await endpoint.post("/logout-api");
+      if (res.data) {
+        setLoading(false);
+          dispatch({type: "LOGOUT"});
+    localStorage.removeItem("user")
+    window.location.reload()
+      }
+    } catch (error: any) {
+      setLoading(false);
+      console.log(error.response?.data);
+    }
+        
+    }
   return (
     <div className="header-area">
             <div className="row align-items-center">
@@ -169,14 +189,14 @@ const Header : React.FC = ()=> {
                         <li className="user-dropdown">
                             <div className="dropdown">
                                 <button className="btn dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                                    <span className="d_none_sm">Jessica <i className="ti-angle-down"></i></span>
+                                    <span className="d_none_sm"><span className='fa fa-user'></span> <i className="ti-angle-down"></i></span>
                                     <img src="images/user.jpg" alt="" className="img-fluid" />
                                 </button>
                                 <div className="dropdown-menu" aria-labelledby="dropdownMenuButton" >
                                     <a className="dropdown-item" href="#"><i className="ti-user"></i> Profile</a>
                                     <a className="dropdown-item" href="#"><i className="ti-settings"></i> Account Settings</a>
-                                    <span role="separator" className="divider"></span>
-                                    <a className="dropdown-item" href="#"><i className="ti-power-off"></i>Logout</a>
+                                  <span role="separator" className="divider"></span>
+                                    <button onClick={logOut}><i className="ti-power-off" onClick={logOut}></i>Logout</button>
                                 </div>
                             </div>
                         </li>

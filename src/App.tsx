@@ -5,25 +5,61 @@ import RegisterPage from './pages/Auth/RegisterPage';
 import DashboardHomePage from './pages/Dashboard/HomePage';
 import BookListPage from './pages/Dashboard/Books/BooksPage';
 import NewBookPage from './pages/Dashboard/Books/NewBookPage';
-import { Context } from './auth/Context';
+import NewAuthorPage from './pages/Dashboard/Authors/NewAuthorPage';
+import AuthorsListPage from './pages/Dashboard/Authors/AuthorsListPage';
+
+
+import ErrorPage from './pages/ErrorPage';
+
+
 import PrivateRoute from './components/auths/PrivateRoute';
+import PublicRoutes from './components/auths/PublicRoutes';
+import { Context } from './auth/Context';
+import { ToastContainer, toast } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const App: React.FC = () => {
-  const { user } = useContext(Context);
-  console.log('user', user);
+const { user } = useContext(Context);
 
-  return (
-    <Router>
-      <Routes>
-        <Route path="/" element={<LoginPage />} />
-        <Route path="/login" element={<LoginPage />} />
-        <Route path="/register" element={<RegisterPage />} />
-        <Route path="/dashboard" element={<PrivateRoute><DashboardHomePage /></PrivateRoute>} />
-        <Route path="/books" element={<PrivateRoute><BookListPage /></PrivateRoute>} />
-        <Route path="/new-book" element={<PrivateRoute><NewBookPage /></PrivateRoute>} />
-      </Routes>
-    </Router>
-  );
+return (
+<Router>
+	<ToastContainer position="top-center" autoClose={5000} hideProgressBar={false} newestOnTop={false} closeOnClick
+		rtl={false} pauseOnFocusLoss draggable pauseOnHover />
+	<Routes>
+		<Route path="/" element={ <PublicRoutes>
+			<LoginPage />
+			</PublicRoutes>
+			} />
+			<Route path="/login" element={ <PublicRoutes>
+				<LoginPage />
+				</PublicRoutes>
+				} />
+				<Route path="/register" element={ <PublicRoutes>
+					<RegisterPage />
+					</PublicRoutes>
+					} />
+					<Route path="/dashboard" element={<PrivateRoute>
+						<DashboardHomePage />
+			</PrivateRoute>} />
+			
+          <Route path="/books" element={<PrivateRoute>
+            <BookListPage />
+			</PrivateRoute>} />
+			 <Route path="/authors" element={<PrivateRoute>
+            <AuthorsListPage />
+			</PrivateRoute>} />
+
+      <Route path="/new-book" element={<PrivateRoute>
+        <NewBookPage />
+      </PrivateRoute>} />
+      <Route path="/new-author" element={<PrivateRoute>
+            <NewAuthorPage />
+      </PrivateRoute>} />
+     
+       <Route path="*" element={<ErrorPage />} />
+	</Routes>
+</Router>
+);
 };
 
 export default App;

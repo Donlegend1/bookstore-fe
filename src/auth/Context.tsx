@@ -34,9 +34,6 @@ interface ContextProviderProps {
 
 export const ContextProvider: React.FC<ContextProviderProps> = ({ children }) => {
   const [state, dispatch] = useReducer(LoginReducer, INITIAL_STATE);
-  console.log('====================================');
-  console.log(state);
-  console.log('====================================');
 
   useEffect(() => {
     localStorage.setItem("user", JSON.stringify(state.user));

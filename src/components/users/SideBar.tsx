@@ -1,6 +1,9 @@
 import React from 'react';
+type Props = {
+    logOut: () => void; 
+};
 
-const SideBar:React.FC = () => {
+const SideBar:React.FC <Props> = ({logOut}) => {
     return (
        <div className="sidebar-menu">
   <div className="sidebar-header">
@@ -65,7 +68,7 @@ const SideBar:React.FC = () => {
             </a>
             <ul className="collapse">
               <li><a href="/profile"><i className="ti-flag-alt" /> <span> Profile</span></a></li>
-              <li><a href="#"><i className="ti-themify-favicon" /><span>Log Out</span></a></li>
+              <li> <button onClick={logOut}><i className="ti-power-off" onClick={logOut}></i>Logout</button></li>
             </ul>
           </li>
     

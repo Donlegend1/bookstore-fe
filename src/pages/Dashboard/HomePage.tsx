@@ -1,35 +1,51 @@
-import React from 'react';
+import React, {useState, useContext} from 'react';
 import Layout from '../../components/users/Layout';
 import Header from '../../components/users/Header';
+import BreadCrumHeader from '../../components/Layouts/Header';
+
 import BookList from '../../components/admin/BookList';
+import { Context } from '../../auth/Context';
+import {User} from "../../types"
+
 
 const HomePage = () => {
+    const { user } = useContext(Context)
+   const TodayDate = new Date();
+
+function formatDate(a:any) {
+    const year = a.getFullYear();
+    const monthNames = [
+        "January", "February", "March", "April", "May", "June",
+        "July", "August", "September", "October", "November", "December"
+    ];
+    const month = monthNames[a.getMonth()];
+    const day = a.getDate();
+
+    // Function to get the appropriate suffix for the day
+    function getDaySuffix(day:any) {
+        if (day > 3 && day < 21) return 'th'; // Handles 11th to 20th
+        switch (day % 10) {
+            case 1: return 'st';
+            case 2: return 'nd';
+            case 3: return 'rd';
+            default: return 'th';
+        }
+    }
+
+    const daySuffix = getDaySuffix(day);
+
+    return `${day}${daySuffix} ${month} ${year}`;
+}
+
+
+
+    
     return (
-        <Layout>
+        <Layout >
         <div className="main-content page-content">
-            <Header />
+                <Header  />
             <div className="main-content-inner">
-                <div className="col-md-12 rt_subheader">
-                <div className="rt_subheader_main">
-                    <h3 className="rt_subheader_title mb-mob-2">Hello David Jhon!</h3>
-                    <div className="rt_breadcrumb mb-mob-2">
-                    <a href="#" className="rt_breadcrumb_home_icon"><i className="feather ft-home" /></a>
-                    <span className="rt_breadcrumb_separator"><i className="feather ft-chevrons-right" /></span>
-                    <a href="" className="breadcrumb_link"> Home </a>
-                    <span className="rt_breadcrumb_separator"><i className="feather ft-chevrons-right" /></span>
-                    <a href="" className="breadcrumb_link"> Main Dashboard </a>
-                    </div>
-                </div>
-                <div className="subheader_btns">
-                    <a href="#" className="btn btn-sm btn-primary btn-inverse-primary"><i className="feather ft-edit mr-0" /></a>
-                    <a href="#" className="btn btn-sm btn-primary btn-inverse-primary"><i className="feather ft-watch mr-0" /></a>
-                    <a href="#" className="btn btn-sm btn-primary btn-inverse-primary">
-                    <span>Today:</span>&nbsp;
-                    <span>Jan 21</span>
-                    <i className="feather ft-calendar ml-2" />
-                    </a>
-                </div>
-                </div>
+                <BreadCrumHeader />
                 <div className="row mt-4">
                 <div className="col-lg-3 col-md-6 stretched_card pl-mob-3 mb-mob-4">
                     <div className="card bg-primary analytics_card">
