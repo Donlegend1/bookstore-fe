@@ -13,9 +13,7 @@ const SideBar:React.FC <Props> = ({logOut}) => {
     <div className="logo">
       <a href="/dashboard"><img src="/users/images/logo.png" alt="logo" /></a>
     </div>
-    {/*=========================*
-                  End Logo
-      *===========================*/}
+ 
   </div>
   {/*=========================*
              Main Menu

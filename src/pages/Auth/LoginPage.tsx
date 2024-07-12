@@ -3,6 +3,7 @@ import Layout from '../../components/users/Layout';
 import endpoint from "../../auth/endpoint";
 import { Context } from "../../auth/Context";
 import { ErrorAlert, SuccessAlert } from "../../Toast/Toast";
+import Loader from '../../Loader/Loader';
 
 interface UserAuthObject {
   login: string;
@@ -14,6 +15,8 @@ const Login: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const { dispatch } = useContext(Context);
 
+
+  //function to login
   const handleSubmit = async () => {
     dispatch({ type: "LOGIN_START" });
     setLoading(true);
@@ -36,6 +39,7 @@ const Login: React.FC = () => {
   return (
     <div className="wrapper">
       <div className="container-fluid">
+       
         <div className="row">
           <div className="login-bg">
             <div className="login-overlay" />
@@ -44,8 +48,11 @@ const Login: React.FC = () => {
               <p>Fill in your credentials to login.</p>
               <a href="javascript:void(0);" className="btn btn-primary">Learn More</a>
             </div>
-          </div>
-          <div className="login-form">
+            </div>
+             
+
+            <div className="login-form">
+              {loading ? <Loader /> :
             <div className="login-form-body">
               <div className="form-gp">
                 <label htmlFor="exampleInputEmail1">Email address</label>
@@ -82,9 +89,12 @@ const Login: React.FC = () => {
               <div className="form-footer text-center mt-5">
                 <p className="text-muted">Don't have an account? <a href="/register" className="text-primary">Sign up</a></p>
               </div>
+              </div>
+             }
             </div>
+          
           </div>
-        </div>{/*row*/}
+       
       </div>
     </div>
   );

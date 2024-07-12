@@ -2,43 +2,11 @@ import React, {useState, useContext} from 'react';
 import Layout from '../../components/users/Layout';
 import Header from '../../components/users/Header';
 import BreadCrumHeader from '../../components/Layouts/Header';
+import BookList from '../../components/admin/books/BookList';
 
-import BookList from '../../components/admin/BookList';
-import { Context } from '../../auth/Context';
-import {User} from "../../types"
 
 
 const HomePage = () => {
-    const { user } = useContext(Context)
-   const TodayDate = new Date();
-
-function formatDate(a:any) {
-    const year = a.getFullYear();
-    const monthNames = [
-        "January", "February", "March", "April", "May", "June",
-        "July", "August", "September", "October", "November", "December"
-    ];
-    const month = monthNames[a.getMonth()];
-    const day = a.getDate();
-
-    // Function to get the appropriate suffix for the day
-    function getDaySuffix(day:any) {
-        if (day > 3 && day < 21) return 'th'; // Handles 11th to 20th
-        switch (day % 10) {
-            case 1: return 'st';
-            case 2: return 'nd';
-            case 3: return 'rd';
-            default: return 'th';
-        }
-    }
-
-    const daySuffix = getDaySuffix(day);
-
-    return `${day}${daySuffix} ${month} ${year}`;
-}
-
-
-
     
     return (
         <Layout >

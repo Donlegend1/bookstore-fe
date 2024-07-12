@@ -1,90 +1,140 @@
 import React, { useEffect, useState } from 'react';
-
-// import { fetchBooks } from '../../redux/actions/bookActions';
-import { Book } from '../../types';
+import { Book, Author } from '../../../types';
 import { Link } from 'react-router-dom';
+import endpoint from '../../../auth/endpoint';
+import { ErrorAlert, SuccessAlert } from "../../../Toast/Toast";
+import Loader from '../../../Loader/Loader';
 
 const BookList: React.FC = () => {
-
-  const books = [
-    {
-      id: 1,
-      title: 'books',
-      author: 'Shake spare',
-      description: ' about shakeSpare',
-      coverImageUrl: ' Books',
-      rating: '4'
-    },
-    {
-      id: 2,
-      title: 'books',
-      author: 'Shake spare',
-      description: ' about shakeSpare',
-      coverImageUrl: ' Books',
-      rating: '4'
-    },
-    {
-      id: 3,
-      title: 'books',
-      author: 'Shake spare',
-      description: ' about shakeSpare',
-      coverImageUrl: ' Books',
-      rating: '4'
-    }
-  ];
-
+  //setting various state in the components
+  const [bookList, setBookList] = useState<Book[]>([]);
+  const [authorsList, setAuthorsList] = useState<Author[]>([]);
   const [editModal, setEditModal] = useState<boolean>(false);
   const [deleteModal, setDeleteModal] = useState<boolean>(false);
   const [currentBook, setCurrentBook] = useState<Book | null>(null);
   const [filterText, setFilterText] = useState<string>('');
-  const [filteredBooks, setFilteredBooks] = useState<Book[]>(books);
+  const [filteredBooks, setFilteredBooks] = useState<Book[]>(bookList);
+   const [loading, setLoading] = useState(false);
+
+  
+  //get all books function
+  const getAllBooks = async () => {
+    try {
+      setLoading(true)
+      const res = await endpoint.get(`/book/list`);
+      setBookList(res.data.books);
+      setFilteredBooks(res.data.books); 
+      setLoading(false)
+    } catch (err) {
+      console.log(err);
+    }
+  };
+
+  //get all authors function
+  const getAuthorsList = async () => {
+    try {
+      const res = await endpoint.get(`/author/list`);
+      setAuthorsList(res.data.authors);
+    } catch (err) {
+      console.log(err);
+    }
+  };
 
   useEffect(() => {
-    // dispatch(fetchBooks());
+    getAllBooks();
+    getAuthorsList();
   }, []);
+
+
 
   useEffect(() => {
     setFilteredBooks(
-      books.filter((book) =>
+      bookList.filter((book) =>
         book.title.toLowerCase().includes(filterText.toLowerCase()) ||
-        book.author.toLowerCase().includes(filterText.toLowerCase()) ||
+        (book.author as Author).fullname.toLowerCase().includes(filterText.toLowerCase()) ||
         book.description.toLowerCase().includes(filterText.toLowerCase())
       )
     );
-  }, []);
+  }, [filterText, bookList]);
 
+
+  //show edit modal
   const handleShowEditModal = (book: Book) => {
     setCurrentBook(book);
     setEditModal(true);
   };
 
+
+
+  //hide edit modal
   const handleHideEditModal = () => {
     setEditModal(false);
+    setCurrentBook(null); 
   };
 
+
+  //show delete modal
   const handleShowDeleteModal = (book: Book) => {
     setCurrentBook(book);
     setDeleteModal(true);
   };
 
+
+  //hide delete modal
   const handleHideDeleteModal = () => {
     setDeleteModal(false);
   };
 
-  const handleDeleteBook = () => {
+
+  ///function to delete book
+  const handleDeleteBook = async () => {
     if (currentBook) {
-      // dispatch delete action
-      setDeleteModal(false);
+      try {
+        const response = await endpoint.delete(`/book/${currentBook.id}`);
+        setDeleteModal(false);
+        getAllBooks();
+        SuccessAlert(response.data.message);
+      } catch (err: any) {
+        console.error("Error deleting book:", err);
+        ErrorAlert(err.response?.data?.message || 'Failed to delete book');
+      }
     }
   };
 
+
+  //function to update books
+  const handleSaveChanges = async () => {
+    if (!currentBook) return;
+
+     try {
+            const data = new FormData();
+            data.append("title", currentBook.title);
+            data.append("author", (currentBook.author as Author).id!.toString());
+            data.append("description", currentBook.description);
+            data.append("coverImageUrl", currentBook.coverImageUrl as string);
+            data.append("rating", currentBook.rating);
+
+            await endpoint.post(`/book/${currentBook.id}`, data).then((res) => {
+                setLoading(false);
+                SuccessAlert(res.data.message);
+                handleHideEditModal();
+                 getAllBooks();
+                  });
+              } catch (error: any) {
+                  setLoading(false);
+                  ErrorAlert(error.response.data.message);
+                  console.error("Error creating book:", error);
+              }
+         };
+
   return (
-    <div className="row mx-3 ">
+    <div className="row mx-3">
       <div className="col-12 mt-4">
         <div className="card">
           <div className="card-body">
             <h4 className="card_title">Books List</h4>
             <div className="single-table">
+              {loading ?  <Loader /> :
               <div className="table-responsive">
                 <input
                   type="text"
@@ -111,8 +161,8 @@ const BookList: React.FC = () => {
                       <tr key={book.id}>
                         <th scope="row">{index + 1}</th>
                         <td>{book.title}</td>
-                        <td>{book.author}</td>
-                        <td>{book.rating}</td>
+                        <td>{(book.author as Author).fullname}</td>
+                        <td>{book.rating} <span className='fa fa-star'></span></td>
                         <td>{book.description}</td>
                         <td>
                           <Link to={`/book/${book.id}`}>View</Link>
@@ -138,7 +188,8 @@ const BookList: React.FC = () => {
                     ))}
                   </tbody>
                 </table>
-              </div>
+                </div>
+              }
             </div>
           </div>
         </div>
@@ -167,13 +218,22 @@ const BookList: React.FC = () => {
                 </div>
                 <div className="form-group">
                   <label htmlFor="book-author" className="col-form-label">Author</label>
-                  <input
+                  <select
                     className="form-control"
-                    type="text"
                     id="book-author"
-                    value={currentBook?.author || ''}
-                    onChange={(e) => setCurrentBook({ ...currentBook!, author: e.target.value })}
-                  />
+                    value={(currentBook?.author as Author)?.id || ''}
+                    onChange={(e) => {
+                      const selectedAuthor = authorsList.find(author => author.id === parseInt(e.target.value));
+                      setCurrentBook({ ...currentBook!, author: selectedAuthor! });
+                    }}
+                  >
+                    <option value="">Select</option>
+                    {authorsList.map((author) => (
+                      <option key={author.id} value={author.id}>
+                        {author.fullname}
+                      </option>
+                    ))}
+                  </select>
                 </div>
                 <div className="form-group">
                   <label htmlFor="book-description" className="col-form-label">Description</label>
@@ -182,7 +242,7 @@ const BookList: React.FC = () => {
                     id="book-description"
                     value={currentBook?.description || ''}
                     onChange={(e) => setCurrentBook({ ...currentBook!, description: e.target.value })}
-                  />
+                  ></textarea>
                 </div>
                 <div className="form-group">
                   <label htmlFor="book-rating" className="col-form-label">Rating</label>
@@ -199,10 +259,24 @@ const BookList: React.FC = () => {
                     <option value="5">5</option>
                   </select>
                 </div>
+                 <div className="form-group">
+                  <label htmlFor="book-title" className="col-form-label">Book Cover</label>
+                  <input
+                    className="form-control"
+                    type="file"
+                    id="book-title"
+                    // value={currentBook?.coverImageUrl || ''}
+                     onChange={(e) => {
+                          if (e.target.files) {
+                              setCurrentBook({ ...currentBook!, coverImageUrl: e.target.files[0] });
+                          }
+                      }}
+                  />
+                </div>
               </div>
               <div className="modal-footer">
                 <button type="button" className="btn btn-light" onClick={handleHideEditModal}>Close</button>
-                <button type="button" className="btn btn-primary">Save changes</button>
+                <button type="button" className="btn btn-primary" onClick={handleSaveChanges}>Save changes</button>
               </div>
             </div>
           </div>

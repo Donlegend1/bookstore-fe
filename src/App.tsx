@@ -8,14 +8,12 @@ import NewBookPage from './pages/Dashboard/Books/NewBookPage';
 import NewAuthorPage from './pages/Dashboard/Authors/NewAuthorPage';
 import AuthorsListPage from './pages/Dashboard/Authors/AuthorsListPage';
 
-
 import ErrorPage from './pages/ErrorPage';
-
 
 import PrivateRoute from './components/auths/PrivateRoute';
 import PublicRoutes from './components/auths/PublicRoutes';
 import { Context } from './auth/Context';
-import { ToastContainer, toast } from "react-toastify";
+import { ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
 const App: React.FC = () => {
@@ -34,29 +32,29 @@ return (
 				<LoginPage />
 				</PublicRoutes>
 				} />
-				<Route path="/register" element={ <PublicRoutes>
-					<RegisterPage />
-					</PublicRoutes>
-					} />
-					<Route path="/dashboard" element={<PrivateRoute>
-						<DashboardHomePage />
-			</PrivateRoute>} />
-			
-          <Route path="/books" element={<PrivateRoute>
-            <BookListPage />
-			</PrivateRoute>} />
-			 <Route path="/authors" element={<PrivateRoute>
-            <AuthorsListPage />
-			</PrivateRoute>} />
+			<Route path="/register" element={ <PublicRoutes>
+				<RegisterPage />
+				</PublicRoutes>
+				} />
+			<Route path="/dashboard" element={<PrivateRoute>
+				<DashboardHomePage />
+				</PrivateRoute>} />
 
-      <Route path="/new-book" element={<PrivateRoute>
-        <NewBookPage />
-      </PrivateRoute>} />
-      <Route path="/new-author" element={<PrivateRoute>
-            <NewAuthorPage />
-      </PrivateRoute>} />
-     
-       <Route path="*" element={<ErrorPage />} />
+			<Route path="/books" element={<PrivateRoute>
+				<BookListPage />
+				</PrivateRoute>} />
+			<Route path="/authors" element={<PrivateRoute>
+				<AuthorsListPage />
+				</PrivateRoute>} />
+
+			<Route path="/new-book" element={<PrivateRoute>
+				<NewBookPage />
+				</PrivateRoute>} />
+			<Route path="/new-author" element={<PrivateRoute>
+				<NewAuthorPage />
+				</PrivateRoute>} />
+
+			<Route path="*" element={<ErrorPage />} />
 	</Routes>
 </Router>
 );

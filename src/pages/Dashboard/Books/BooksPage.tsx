@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
 import Layout from '../../../components/users/Layout';
 import Header from '../../../components/users/Header';
-import BookList from '../../../components/admin/BookList';
+import BookList from '../../../components/admin/books/BookList';
 
 
 const BooksPage = () => {

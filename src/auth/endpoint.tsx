@@ -1,27 +1,34 @@
 import axios, { AxiosInstance } from "axios";
-import { Context } from "./Context";
-import { useContext } from "react";
 
-interface User {
-  token: string;
-  [key: string]: any;
-}
+// Function to get the token from localStorage
+const getToken = () => {
+  const user = JSON.parse(localStorage.getItem("user") || "null");
+  return user ? `Bearer ${user.token}` : "";
+};
 
-let user: User | null = JSON.parse(localStorage.getItem("user") || "null");
-let token = "";
-
-// If there is a user in localStorage, get the token
-if (user) {
-  token = user.token;
-}
-
+// Create an Axios instance
 const instance: AxiosInstance = axios.create({
   baseURL: process.env.REACT_APP_BACKEND_URL,
-  headers: { Authorization: `${token}` },
+  headers: { Authorization: getToken() },
 });
 
-instance.interceptors.response.use((response) => {
-  return response;
-});
+// Interceptor to ensure the token is included in each request
+instance.interceptors.request.use(
+  (config) => {
+    config.headers.Authorization = getToken();
+    return config;
+  },
+  (error) => {
+    return Promise.reject(error);
+  }
+);
+
+// Interceptor to handle responses
+instance.interceptors.response.use(
+  (response) => response,
+  (error) => {
+    return Promise.reject(error);
+  }
+);
 
 export default instance;

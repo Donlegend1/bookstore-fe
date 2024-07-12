@@ -3,16 +3,25 @@ import { Author } from "../../../types";
 import endpoint from '../../../auth/endpoint';
 import { ErrorAlert, SuccessAlert } from "../../../Toast/Toast";
 import { useNavigate } from 'react-router-dom';
+import Loader from '../../../Loader/Loader';
 
 const CreateAuthorForm = () => {
+
+  //set author data object
   const [authorData, setAuthorData] = useState<Author>({
     fullname: "",
     biography: "",
     passport: "",
   });
+
+  //setting the state of the page
   const [loading, setLoading] = useState(false);
+
+  //instantiating navigation
   const navigate = useNavigate();
 
+
+  //function to create new authors
   const handleCreateAuthor = async() => {
     try {
       setLoading(true);
