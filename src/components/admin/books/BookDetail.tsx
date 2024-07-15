@@ -13,7 +13,7 @@ const BookDetail: React.FC = () => {
   const [loading, setLoading] = useState(false);
   const [showReviewModal, setShowReviewModal] = useState(false);
   const [review, setReview] = useState({ rating: '', comment: '', review_by: user?.id || "", book_id: id });
-   const BACKEND_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000/";
+   const BACKEND_URL = process.env.BACKEND_URL || "https://tripcel.eldantech.com.ng/";
 
   const dummyReadingHistory = [
     { id: 1, user: 'John Doe', date: '2024-01-01', progress: '50%' },
