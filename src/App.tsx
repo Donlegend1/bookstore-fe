@@ -7,6 +7,16 @@ import BookListPage from './pages/Dashboard/Books/BooksPage';
 import NewBookPage from './pages/Dashboard/Books/NewBookPage';
 import NewAuthorPage from './pages/Dashboard/Authors/NewAuthorPage';
 import AuthorsListPage from './pages/Dashboard/Authors/AuthorsListPage';
+import BookDetails from './pages/Dashboard/Books/BookDetails';
+import AuthorDetails from './pages/Dashboard/Authors/AuthorDetails';
+
+
+import Profile from './pages/Dashboard/Profile/Profile';
+
+
+
+
+
 
 import ErrorPage from './pages/ErrorPage';
 
@@ -42,7 +52,17 @@ return (
 
 			<Route path="/books" element={<PrivateRoute>
 				<BookListPage />
-				</PrivateRoute>} />
+			</PrivateRoute>} />
+			<Route path="/book/:id" element={<PrivateRoute>
+				<BookDetails />
+			</PrivateRoute>} />
+
+			<Route path="/profile" element={<PrivateRoute>
+				<Profile />
+			</PrivateRoute>} />
+
+			
+			
 			<Route path="/authors" element={<PrivateRoute>
 				<AuthorsListPage />
 				</PrivateRoute>} />
@@ -52,7 +72,11 @@ return (
 				</PrivateRoute>} />
 			<Route path="/new-author" element={<PrivateRoute>
 				<NewAuthorPage />
-				</PrivateRoute>} />
+			</PrivateRoute>} />
+			<Route path="/author/:id" element={<PrivateRoute>
+				<AuthorDetails />
+			</PrivateRoute>} />
+			
 
 			<Route path="*" element={<ErrorPage />} />
 	</Routes>

@@ -1,9 +1,8 @@
 export interface User{
-fullname: string,
-  email: string,
-  created_at: string,
-  updated_at:string
-
+ fullname: string;
+  email: string;
+  password?: string;
+  passport?: File | null;
 }
 export interface Book {
   id?: number;
@@ -11,7 +10,8 @@ export interface Book {
   author: Author;
   description: string;
   coverImageUrl: string | File ;
-  rating:string
+  rating: string
+  reviews:Reviews[]
 }
 
 export interface Author {
@@ -22,6 +22,12 @@ export interface Author {
   books?: Book[];
 }
 
+export interface Reviews {
+  id?: number;
+  comment: string;
+   user: User;
+  rating: string;
+}
 export interface UserProfile {
   name: string;
   email: string;

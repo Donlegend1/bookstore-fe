@@ -1,5 +1,4 @@
 import React, {useState, useContext} from 'react'
-import Header from './Header'
 import Footer from './Footer'
 import SideBar from './SideBar';
 import endpoint from '../../auth/endpoint';
@@ -32,7 +31,7 @@ const Layout = ({ children }: Props) => {
       <SideBar logOut={ logOut} />
          
             {children}
-          {/* <Footer /> */}
+          <Footer />
           
    </div>
   )

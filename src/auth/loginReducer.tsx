@@ -16,6 +16,7 @@ export type LoginAction =
   | { type: "LOGIN_FAILURE" }
   | { type: "LOGOUT" };
 
+
 const LoginReducer = (state: State, action: LoginAction): State => {
   switch (action.type) {
     case "LOGIN_START":
@@ -24,6 +25,7 @@ const LoginReducer = (state: State, action: LoginAction): State => {
       return { user: action.payload, isFetching: false, error: false };
     case "LOGIN_FAILURE":
       return { user: null, isFetching: false, error: true };
+    
     case "LOGOUT":
       localStorage.removeItem("user");
       return { user: null, isFetching: false, error: false };

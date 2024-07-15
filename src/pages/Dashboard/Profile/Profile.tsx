@@ -1,22 +1,19 @@
-import React from 'react';
+import React, {useState} from 'react';
 import Layout from '../../../components/users/Layout';
 import Header from '../../../components/users/Header';
-import BookList from '../../../components/admin/books/BookList';
-import BookForm from '../../../components/admin/books/BookForm';
+import ProfileSection from '../../../components/admin/profile/profile';
 import BreadCrumHeader from '../../../components/Layouts/Header';
 
-
-
-const NewBooksPage = () => {
+const Profile = () => {
     return (
-        <Layout>
+       <Layout>
             <div className="main-content page-content">
                 
                 <Header />
                   <div className="main-content-inner">
                <BreadCrumHeader />
                 </div>
-                <BookForm />
+                <ProfileSection />
 
 
                  </div>
@@ -24,4 +21,4 @@ const NewBooksPage = () => {
     );
 }
 
-export default NewBooksPage;
+export default Profile;

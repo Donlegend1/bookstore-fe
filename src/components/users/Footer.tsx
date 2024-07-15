@@ -5,7 +5,7 @@ import React from 'react';
   return (
  <footer>
         <div className="footer-area">
-            <p>&copy; Copyright 2019. All right reserved. Template by Raventhemez.</p>
+            <p>&copy; Copyright 2019. All right reserved. My Online Book store.</p>
         </div>
     </footer>
   )

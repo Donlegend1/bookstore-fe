@@ -7,33 +7,29 @@ const SideBar:React.FC <Props> = ({logOut}) => {
     return (
        <div className="sidebar-menu">
   <div className="sidebar-header">
-    {/*=========================*
-                    Logo
-      *===========================*/}
+  
     <div className="logo">
-      <a href="/dashboard"><img src="/users/images/logo.png" alt="logo" /></a>
+            <a href="/dashboard">
+              <h5 className='text-white'> Book Store</h5>
+              {/* <img src="/users/images/logo.png" alt="logo" /> */}
+            </a>
     </div>
  
   </div>
-  {/*=========================*
-             Main Menu
-  *===========================*/}
+ 
   <div className="main-menu">
     <div className="menu-inner" id="sidebar_menu">
       <nav>
         <ul className="metismenu" id="menu">
           <li className="active">
             <a href="/dashboard">
-              <i className="feather ft-home" />
+              <i className="ti-home" />
               <span>Dashboard</span>
             </a>
           </li>
-          {/*=========================*
-                            UI Features
-                  *===========================*/}
           <li>
             <a href="javascript:void(0)" aria-expanded="true">
-              <i className="feather ft-gitlab" />
+              <i className="fa fa-book" />
               <span>Books</span>
             </a>
             <ul className="collapse">
@@ -43,30 +39,33 @@ const SideBar:React.FC <Props> = ({logOut}) => {
            
             </ul>
           </li>
-          {/*=========================*
-                            Advance Kit
-                  *===========================*/}
           <li>
             <a href="javascript:void(0)" aria-expanded="true">
-              <i className="feather ft-briefcase" />
+              <i className="fa fa-users" />
               <span>Authors</span>
             </a>
             <ul className="collapse">
-              <li><a href="/authors"><i className="ti-layout-cta-left" /> <span>Authors List</span></a></li>
+              <li><a href="/authors"><i className="fa fa-users" /> <span>Authors List</span></a></li>
               <li><a href="/new-author"><i className="ti-layout-media-overlay-alt-2" /> <span>New Author</span></a></li>
             </ul>
           </li>
-          {/*=========================*
-                            Icons
-                  *===========================*/}
           <li>
             <a href="javascript:void(0)" aria-expanded="true">
-              <i className="feather ft-award" />
+              <i className="ti-settings" />
               <span>Settings</span>
             </a>
             <ul className="collapse">
-              <li><a href="/profile"><i className="ti-flag-alt" /> <span> Profile</span></a></li>
-              <li> <button onClick={logOut}><i className="ti-power-off" onClick={logOut}></i>Logout</button></li>
+              <li><a href="/profile"><i className="ti-user" /> <span> Profile</span></a></li>
+                    <li>
+                      <button 
+                        className="btn btn-danger rounded d-flex align-items-center" 
+                        onClick={logOut}
+                        style={{ gap: '5px' }}
+                    >
+                        <i className="fa fa-power-off"></i>
+                        Logout
+                    </button>
+                    </li>
             </ul>
           </li>
     
@@ -74,9 +73,6 @@ const SideBar:React.FC <Props> = ({logOut}) => {
       </nav>
     </div>
   </div>
-  {/*=========================*
-            End Main Menu
-  *===========================*/}
 </div>
     );
 }
