@@ -13,14 +13,13 @@ const AuthorDetails: React.FC = () => {
   const [review, setReview] = useState({ rating: '', comment: '' });
   const BACKEND_URL = process.env.BACKEND_URL || "http://127.0.0.1:8000/";
 
+
+  //function to get all authors
   const getSingleAuthor = async () => {
     setLoading(true);
     try {
       const res = await endpoint.get(`/author/${id}`);
       setAuthor(res.data.author);
-      console.log('=================author===================');
-      console.log(res.data.author);
-      console.log('====================================');
     } catch (err) {
       console.error(err);
     } finally {
@@ -35,10 +34,6 @@ const AuthorDetails: React.FC = () => {
   const handleShowReviewModal = () => setShowReviewModal(true);
   const handleCloseReviewModal = () => setShowReviewModal(false);
 
-  const handleReviewChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
-    const { name, value } = e.target;
-    setReview((prevReview) => ({ ...prevReview, [name]: value }));
-  };
 
 
 
